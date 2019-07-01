@@ -1,0 +1,126 @@
+%
+O09853 (AUTO SET RENISHAW V3.14 FOR NGC)
+G103 P1
+#3001= 0
+G04 P250
+IF [ #3001 LT 200 ] GOTO999 (TEST RUNNING IN GRAPHICS)
+G04 P160 (M98 P9854)
+IF [ #2 EQ #0 ] GOTO25
+#1= #4
+M05
+#174= 0
+M98 P9799
+IF [ #20 EQ #0 ] GOTO25
+#27= FIX[ #20 ]
+#32= [ #20 - FIX[ #20 ] ] * 1000
+#32= ROUND[ #32 ]
+IF [ #32 NE 0 ] GOTO1
+#32= #27
+N1
+IF [ #164 EQ 3 ] GOTO2
+IF [ #164 EQ 13 ] GOTO2
+IF [ ABS[ #7 ] EQ #32 ] GOTO25
+N2
+#4= #5021 - #5041
+#5= #5022 - #5042
+#6= #5023 - #5043
+IF [ #19 EQ #0 ] GOTO3
+#31= #19 + [ #1 * 2 ]
+#10= ABS[ #31 ]
+GOTO9
+N3
+IF [ #7 EQ #0 ] GOTO10
+#31= -1
+IF [ #7 LT 0 ] GOTO4
+#31= 1
+N4
+#10= #[ 2400 + ABS[ #7 ] ] + #[ 2600 + ABS[ #7 ] ]
+N8
+#10= [ #10 + #1 ] * #156
+#31= #10 * #31
+N9
+IF [ #10 EQ 0 ] GOTO24
+IF [ #2 EQ 1 ] GOTO10
+IF [ #10 GT #177 ] GOTO24
+N10
+#3004= 0
+IF [ #27 EQ #0 ] GOTO11
+G65 P9850 T#27
+N11
+IF [ #19 NE #0 ] GOTO12
+IF [ #7 EQ #0 ] GOTO18
+N12
+IF [ #10 LE #173 ] GOTO18
+IF [ #2 EQ 2 ] GOTO18
+IF [ #176 EQ 1 ] GOTO13
+IF [ #176 EQ - 1 ] GOTO14
+IF [ #176 EQ 2 ] GOTO15
+IF [ #176 EQ - 2 ] GOTO16
+GOTO18
+N13
+G00 X [ #167 - #4 ] Y [ #168 - #5 - [ #10 / 2 ] ]
+GOTO17
+N14
+G00 X [ #167 - #4 ] Y [ #168 - #5 + [ #10 / 2 ] ]
+GOTO17
+N15
+G00 Y [ #168 - #5 ] X [ #167 - #4 - [ #10 / 2 ] ]
+GOTO17
+N16
+G00 Y [ #168 - #5 ] X [ #167 - #4 + [ #10 / 2 ] ]
+N17
+G65 P9855 (OTS ON)
+G103 P1
+#10= #31
+GOTO19
+N18
+G103 P1
+G00 X [ #167 - #4 ] Y [ #168 - #5 ]
+G65 P9855 (OTS ON)
+G103 P1
+N19
+#28= #169 + #171 - #6
+G31 G43 H#32 Z#28 F [ 3000 * #29 ]
+G04 P160 (M98 P9854)
+G65 P9799
+IF [ ABS[ [ #5063 - #199 ] - #28 ] GT 0.05 * #29 ] GOTO23
+#28= #169 + #172 - #6
+G31 Z#28 F [ 1000 * #29 ]
+G04 P160 (M98 P9854)
+IF [ ABS[ [ #5063 - #199 ] - #28 ] GT 0.05 * #29 ] GOTO23
+IF [ #2 EQ 2 ] GOTO20
+G65 P9851 T [ #32 ] S [ #10 ] Z [ - #172 ] Q [ #17 ] H [ #11 ] M [ #13 ]
+IF [ #13 EQ #0 ] GOTO20
+IF [ #[ 2000 + #13 ] EQ 1 ] GOTO26
+N20
+IF [ #7 EQ #0 ] GOTO26
+IF [ #26 EQ #0 ] GOTO21
+#26= #26 - #172
+GOTO22
+N21
+#26= - [ #172 + [ 5 * #29 ] ]
+N22
+IF [ #2 EQ 1 ] GOTO26
+G43 H#3026
+G65 P9852 D [ ABS[ #7 ] ] S [ #31 ] Z [ #26 ] R [ #18 ] I [ #1 ] H [ #11 ] M [ #13 ]
+GOTO26
+N23
+G65 P9024 (Z HOME)
+G90
+#3000= 92 (UNEXPECTED SURFACE FOUND)
+N24
+#3000= 82 (TOOL OUT OF RANGE)
+N25
+#3000= 91 (FORMAT ERROR)
+N26
+G65 P9024 (Z HOME)
+G90 G49
+N999
+G65 P9856 (OTS OFF)
+G103
+(G04 P1.0)
+M99
+
+
+
+%

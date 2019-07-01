@@ -1,0 +1,193 @@
+%
+O09816 (EXTERNAL CORNER RENISHAW V3.14 FOR NGC)
+G103 P1
+#3001= 0
+G04 P250
+IF [ #3001 LT 200 ] GOTO999 (TEST RUNNING IN GRAPHICS)
+G65 P9724
+G65 P9725 A1.
+#10= #5041
+#12= #5042
+IF [ #24 NE #0 ] GOTO1
+#3000= 91 (X INPUT MISSING)
+N1
+IF [ #25 NE #0 ] GOTO2
+#3000= 91 (Y INPUT MISSING)
+N2
+IF [ #11 EQ #0 ] GOTO3
+#3000= 91 (H INPUT NOT ALLOWED)
+N3
+#1= 185
+WHILE [ #1 LE 199 ] DO1
+#[ #1 ]= #0
+#1= #1 + 1
+END1
+#9= [ #24 * 2 ] - #10
+#14= [ #25 * 2 ] - #12
+IF [ #4 EQ #0 ] GOTO35
+#4= ABS[ #4 ]
+N35
+#7= #[ #161 ]
+IF [ #24 GT #10 ] GOTO4
+IF [ #4 EQ #0 ] GOTO36
+#4= - #4
+N36
+#7= - #[ #161 ]
+N4
+IF [ #5 EQ #0 ] GOTO45
+#5= ABS[ #5 ]
+N45
+#8= #[ #161 + 1 ]
+IF [ #25 GT #12 ] GOTO5
+IF [ #5 EQ #0 ] GOTO46
+#5= - #5
+N46
+#8= - #[ #161 + 1 ]
+N5
+G31 Y#14 F#169
+#199= 1
+IF [ ABS[ #5042 - [ #14 ] ] GE #173 ] GOTO23
+G65 P9726 X#24 Q#17 S #[ #161 ] (P3)
+IF [ #199 NE 0 ] GOTO23
+#30= #174 (P3X)
+IF [ #5 EQ #0 ] GOTO6 (NO J)
+G31 Y [ #14 + #5 ] F#169
+#199= 1
+IF [ ABS[ #5042 - [ #14 + #5 ] ] GE #173 ] GOTO23
+G65 P9726 X#24 Q#17 S #[ #161 ] (P4)
+IF [ #199 NE 0 ] GOTO23
+#31= #174 (P4X)
+N6
+G01 X#10 Y#12 F#169
+G31 X#9 F#169
+#199= 1
+IF [ ABS[ #5041 - [ #9 ] ] GE #173 ] GOTO23
+G65 P9726 Y#25 Q#17 S #[ #161 + 1 ] (P1)
+IF [ #199 NE 0 ] GOTO23
+#32= #175 (P1Y)
+IF [ #4 EQ #0 ] GOTO7
+G31 X [ #9 + #4 ] F#169
+#199= 1
+IF [ ABS[ #5041 - [ #9 + #4 ] ] GE #173 ] GOTO23
+G65 P9726 Y#25 Q#17 S #[ #161 + 1 ] (P2)
+IF [ #199 NE 0 ] GOTO23
+#16= #175 (P2Y)
+N7
+G01 X#10 Y#12 F#169
+IF [ #4 NE #0 ] GOTO8
+IF [ #5 NE #0 ] GOTO8
+(NO I OR J)
+#185= #30 + #7 + #[ #161 + 2 ] (XN)
+#186= #32 + #8 + #[ #161 + 3 ] (YN)
+GOTO17
+N8
+IF [ #4 EQ #0 ] GOTO10
+IF [ #5 EQ #0 ] GOTO10
+(I J INPUT)
+G65 P9731 Y [ #16 - #32 ] X [ #4 ] (ATAN)
+#189= #168 (ANG M1)
+N9
+G65 P9731 Y [ #5 ] X [ #31 - #30 ] (ATAN)
+#192= #168 (ANG M2)
+GOTO14
+N10
+IF [ #5 NE #0 ] GOTO12
+(I INPUT ONLY)
+#5= #4
+#31= #30 - [ #16 - #32 ]
+G65 P9731 Y [ #16 - #32 ] X [ #4 ] (ATAN)
+#189= #168 (ANG M1)
+N11
+G65 P9731 Y [ - #4 ] X [ #16 - #32 ] (ATAN)
+#192= #168 (ANG M2)
+GOTO14
+N12
+(J INPUT ONLY)
+#4= #5
+#16= #32 - [ #31 - #30 ]
+G65 P9731 Y [ - [ #31 - #30 ] ] X [ #5 ] (ATAN)
+#189= #168 (ANG M1)
+N13
+G65 P9731 Y [ #5 ] X [ #31 - #30 ] (ATAN)
+#192= #168 (ANG M2)
+N14
+#28= #7 / ABS[ COS[ #192 - 90 ] ] (E B R X)
+#29= #8 / ABS[ COS[ #189 ] ] (E B R Y)
+#4= #9 + #4 (RE-ASS. P2X)
+#5= #14 + #5 (RE-ASS. P4Y)
+#30= #30 + #28 (ADJ EBRX)
+#31= #31 + #28 (ADJ EBRX)
+#32= #32 + #29 (ADJ EBRY)
+#16= #16 + #29 (ADJ EBRY)
+( )
+#185= [ [ #31 - #30 ] * [ #32 - #14 ] - [ #5 - #14 ] * [ #9 - #30 ] ]
+#186= [ [ #5 - #14 ] * [ #4 - #9 ] - [ #31 - #30 ] * [ #16 - #32 ] ]
+#186= #185 / #186 (UA)
+( )
+#185= #9 + [ #186 * [ #4 - #9 ] ] (X)
+#186= #32 + [ #186 * [ #16 - #32 ] ] (Y)
+#185= #185 + #[ #161 + 2 ] (XN)
+#186= #186 + #[ #161 + 3 ] (YN)
+N15
+#194= #189 (X ANG ERR)
+IF [ #189 LT 90 ] GOTO16
+#194= #189 - 180
+N16
+IF [ #189 GT - 90 ] GOTO165
+#194= #189 + 180
+N165
+#193= #192 - 90 (Y ANG ERR)
+IF [ #193 GT - 90 ] GOTO17
+#193= #193 + 180
+N17
+#190= #185 - #24 (X POS ERR)
+#191= #186 - #25 (Y POS ERR)
+#195= SQRT[ [ #190 * #190 ] + [ #191 * #191 ] ] (TP ERROR)
+IF [ #23 EQ #0 ] GOTO18
+G65 P9730 X#24 Y#25 M#13 S#19 W#23
+N18
+#198= 0
+IF [ #21 EQ #0 ] GOTO19
+IF [ #195 GE #21 ] GOTO25 (UPPER TOL)
+N19
+IF [ #13 EQ #0 ] GOTO21
+IF [ #195 LT #13 / 2 ] GOTO20
+#198= 1
+N20
+IF [ #170 AND 4 EQ 4 ] GOTO21
+IF [ #195 LT #13 / 2 ] GOTO21
+#[ 3006 - [ [ #170 AND 8 ] / 8 * 6 ] ]= 1 (OUT OF TOL)
+N21
+IF [ #2 EQ #0 ] GOTO215
+IF [ ABS[ #193 ] LT #2 ] GOTO22
+IF [ ABS[ #194 ] LT #2 ] GOTO22
+#198= 4
+N22
+IF [ #170 AND 4 EQ 4 ] GOTO215
+IF [ ABS[ #193 ] LT #2 ] GOTO215
+IF [ ABS[ #194 ] LT #2 ] GOTO215
+#[ 3006 - [ [ #170 AND 8 ] / 8 * 6 ] ]= 1 (ANGLE OUT OF TOL)
+N215
+IF [ #19 EQ #0 ] GOTO26
+G65 P9732 S#19 W1.
+GOTO26
+N23
+G01 X#10 Y#12 F#169
+IF [ #199 NE 2 ] GOTO24
+#3000= 93 (SURFACE NOT FOUND)
+N24
+#3000= 92 (UNEXPECTED SURFACE FOUND)
+N25
+#198= 3
+IF [ #170 AND 4 EQ 4 ] GOTO26
+#[ 3006 - [ [ #170 AND 8 ] / 8 * 6 ] ]= 1 (UPPER TOL EXCEEDED)
+N26
+G00 X#10 Y#12
+N999
+G103
+(G04 P1.0)
+M99
+
+
+
+%

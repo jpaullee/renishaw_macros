@@ -1,0 +1,81 @@
+%
+O09804 (CAL VEC STYLUS RAD RENISHAW V3.14 FOR NGC)
+G103 P1
+#3001= 0
+G04 P250
+IF [ #3001 LT 200 ] GOTO999 (TEST RUNNING IN GRAPHICS)
+G65 P9724
+IF [ #7 NE #0 ] GOTO1
+#3000= 91 (D INPUT MISSING)
+N1
+#1= 185
+WHILE [ #1 LE 199 ] DO1
+#[ #1 ]= #0
+#1= #1 + 1
+END1
+#10= #5041
+#12= #5042
+IF [ #26 EQ #0 ] GOTO2
+IF [ #18 NE #0 ] GOTO2
+#18= 5 * #179
+N2
+G65 P9721 D#7 Q#17 R#18 Z#26 S #[ #161 ]
+IF [ #199 NE 0 ] GOTO4
+G00 X#177
+G65 P9722 D#7 Q#17 R#18 Z#26 S #[ #161 ]
+IF [ #199 NE 0 ] GOTO4
+#[ #161 + 1 ]= ABS[ #7 / 2 - ABS[ #175 - #178 ] ]
+G00 Y#178
+G65 P9721 D#7 Q#17 R#18 Z#26 S #[ #161 ]
+IF [ #199 NE 0 ] GOTO4
+#[ #161 ]= ABS[ #7 / 2 - ABS[ #174 - #177 ] ]
+G00 X#177
+(V ANGS)
+#2= 30
+IF [ #18 LT 0 ] GOTO3
+IF [ #26 EQ #0 ] GOTO3
+(BOSS CASE)
+#2= 210
+N3
+#5= 0
+#4= #161 + 10
+#1= 0
+WHILE [ #1 LT 4 ] DO2
+WHILE [ #5 LT 2 ] DO1
+G65 P9727 A#2 Q#17 D#7 Z#26 R#18 S #[ #161 ]
+IF [ #199 NE 0 ] GOTO4
+#24= [ #174 - #177 ] * [ #174 - #177 ]
+#25= [ #175 - #178 ] * [ #175 - #178 ]
+#29= SQRT[ #24 + #25 ]
+#[ #4 + #5 ]= ABS[ [ #7 / 2 ] - #29 ]
+#5= #5 + 1
+#2= #2 + 30
+END1
+#1= #1 + 1
+#2= #2 + 30
+#5= 0
+#4= #4 + 2
+END2
+G65 P9725 A7.
+G65 P9725 A6.
+#190= #177 + #[ #161 + 2 ] - #10
+#191= #178 + #[ #161 + 3 ] - #12
+IF [ #19 EQ #0 ] GOTO7
+G65 P9732 S#19 W1.
+GOTO7
+N4
+G00 X#10 Y#12
+IF [ #199 EQ 2 ] GOTO5
+#3000= 92 (UNEXPECTED SURFACE FOUND)
+N5
+#3000= 93 (SURFACE NOT FOUND)
+N7
+G00 X#10 Y#12
+N999
+G103
+(G04 P1.0)
+M99
+
+
+
+%

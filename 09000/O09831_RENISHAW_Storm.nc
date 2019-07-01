@@ -1,0 +1,47 @@
+%
+O09831 (MULTI-STYLUS LOAD RENISHAW V3.14 FOR NGC)
+G103 P1
+#3001= 0
+G04 P250
+IF [ #3001 LT 200 ] GOTO999 (TEST RUNNING IN GRAPHICS)
+G65 P9724
+IF [ #6 NE #0 ] GOTO1
+#3000= 91 (K INPUT MISSING)
+N1
+IF [ #6 GT 12 ] GOTO2
+#1= 3
+WHILE [ #1 LT 11 ] DO1
+IF [ #1 EQ #6 ] GOTO2
+#1= #1 + 1
+END1
+GOTO3
+N2
+#3000= 91 (K INPUT OUT OF RANGE)
+N3
+IF [ #6 GE 11 ] GOTO4
+#1= 0
+WHILE [ #1 LT 4 ] DO1
+#[ #161 + #1 ]= #[ #161 + 14 + [ #6 * 4 ] + #1 ]
+#1= #1 + 1
+END1
+GOTO5
+N4 (K11 K12)
+#1= 0
+WHILE [ #1 LT 4 ] DO1
+#[ #161 + #1 ]= #[ #161 + 14 + [ [ #6 - 10 ] * 4 ] + #1 ]
+#1= #1 + 1
+END1
+#1= 0
+WHILE [ #1 LT 8 ] DO1
+#[ #161 + 10 + #1 ]= #[ #161 + 18 + [ [ #6 - 10 ] * 8 ] + #1 ]
+#1= #1 + 1
+END1
+N5
+N999
+G103
+(G04 P1.0)
+M99
+
+
+
+%

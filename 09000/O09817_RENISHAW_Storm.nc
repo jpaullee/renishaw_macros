@@ -1,0 +1,100 @@
+%
+O09817 (4TH AXIS X MEASURE RENISHAW V3.14 FOR NGC)
+G103 P1
+#3001= 0
+G04 P250
+IF [ #3001 LT 200 ] GOTO999 (TEST RUNNING IN GRAPHICS)
+G65 P9724
+G65 P9725 A1.
+IF [ #24 EQ #0 ] GOTO10
+IF [ #26 EQ #0 ] GOTO11
+IF [ #24 EQ 0 ] GOTO12
+N1
+#5= 185
+WHILE [ #5 LE 199 ] DO1
+#[ #5 ]= #0
+#5= #5 + 1
+END1
+#3= 4 (4TH AXIS NUMBER)
+#4= 1 (1=CW -1=CCW CORRECTION)
+IF [ #17 NE #0 ] GOTO2
+#17= 10 * #179
+N2
+#10= #5041 (X)
+#12= #5043 - #166 (Z)
+G31 X [ #10 + [ #24 / 2 ] ] F#169
+#199= 1
+IF [ ABS[ #5041 - [ #10 + [ #24 / 2 ] ] ] GE #173 ] GOTO13
+G65 P9726 Z#26 Q#17
+IF [ #199 NE 0 ] GOTO13
+#30= #176 (Z1)
+G00 X#10
+G31 X [ #10 - [ #24 / 2 ] ] F#169
+#199= 1
+IF [ ABS[ #5041 - [ #10 - [ #24 / 2 ] ] ] GE #173 ] GOTO13
+G65 P9726 Z#26 Q#17
+IF [ #199 NE 0 ] GOTO13
+#31= #176 (Z2)
+G00 X#10
+#29= [ #31 - #30 ] * #4
+G65 P9731 Y [ #29 ] X [ #24 ] (ATAN)
+#16= #168
+N3
+#189= #16 + #[ 5040 + #3 ]
+#193= #29
+#194= #16 (ANG ERR)
+IF [ #23 EQ #0 ] GOTO4
+G65 P9730 A [ #189 - #16 ] Q#2 W#23
+N4
+IF [ #2 EQ #0 ] GOTO6
+IF [ ABS[ #194 ] LT #2 ] GOTO5
+#198= 4
+N5
+IF [ #170 AND 4 EQ 4 ] GOTO6
+IF [ ABS[ #194 ] LT #2 ] GOTO6
+#[ 3006 - [ [ #170 AND 8 ] / 8 * 6 ] ]= 1 (ANGLE OUT OF TOL)
+N6
+IF [ #19 EQ #0 ] GOTO15
+IF [ #19 GE 154 ] GOTO9
+IF [ #19 GE 110 ] GOTO8
+IF [ #19 NE 0 ] GOTO7
+(EXTL)
+#[ 5200 + #3 ]= #[ 5200 + #3 ] + #16
+GOTO15
+N7
+(W OFF)
+#[ 5200 + #3 + [ #19 * 20 ] ]= #[ 5020 + #3 ] - #[ 5040 + #3 ] + #16 - #[ 5200 + #3 ]
+GOTO15
+N8
+(ADDITIONAL OFFSETS)
+#30= #19 - 110
+#[ 7000 + #3 + [ #30 * 20 ] ]= #[ 5020 + #3 ] - #[ 5040 + #3 ] + #16 - #[ 5200 + #3 ]
+GOTO15
+N9
+(G154 P OFFSETS)
+#30= [ ROUND[ [ #19 - FIX[ #19 ] ] * 100 ] ] - 1
+#[ 14000 + #3 + [ #30 * 20 ] ]= #[ 5020 + #3 ] - #[ 5040 + #3 ] + #16 - #[ 5200 + #3 ]
+GOTO15
+N10
+#3000= 91 (X INPUT MISSING)
+N11
+#3000= 91 (Z INPUT MISSING)
+N12
+#3000= 91 (X0 INPUT NOT ALLOWED)
+N13
+G00 Z#12
+X#10
+IF [ #199 EQ 2 ] GOTO14
+#3000= 92 (UNEXPECTED SURFACE FOUND)
+N14
+#3000= 93 (SURFACE NOT FOUND)
+N15
+#199= 0
+N999
+G103
+(G04 P1.0)
+M99
+
+
+
+%
