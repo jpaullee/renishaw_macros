@@ -1,6 +1,5 @@
 %
-O09731 (RENISHAW V3.14 FOR NGC)
-(#[#161+9] LOAD/ATAN)
+O09731 (#[#161+9] LOAD/ATAN)
 IF [ #24 NE #0 ] GOTO6
 #2= 30 (ANG INC)
 #3= ROUND[ #1 / #2 ] (ANG NO)
@@ -50,6 +49,8 @@ IF [ #25 GE 0 ] GOTO10
 N10
 (G04 P1.0)
 M99
+
+
 
 
 
